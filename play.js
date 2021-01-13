@@ -1,8 +1,23 @@
 const net = require('net');
 const {HOST, PORT, NAME} = require('./constants')
-/**
- * Establishes connection with the game server
- */
+
+const handleUserInput = (key) => {
+  if(key === '\u0003') {
+    process.exit
+  }
+
+}
+const setupInput = function() {
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.setEncoding('utf8');
+  stdin.resume();
+  return stdin;
+}
+
+
+
+
 const connect = function() {
   const conn = net.createConnection({ 
     host: HOST,
@@ -13,10 +28,13 @@ const connect = function() {
   conn.on('connect', () => {
     console.log('Connected');
     conn.write(`${NAME}`);
+   
+
+
   });
 
   return conn;
 }
-
 console.log('Connecting ...');
-connect();
+let conn = connect();
+setupInput(conn);
